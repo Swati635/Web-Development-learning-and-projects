@@ -7,3 +7,7 @@ Languages & Markup  JavaScript HTML5 CSS3
 
 Frameworks & Tools Jekyll Node.js  GitHub Actions
 
+
+## How to Run Locally
+1. Clone repo: `git clone https://github.com/username/portfolio-website.git`
+2. Open `index.html` in your browser
