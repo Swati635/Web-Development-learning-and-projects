@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Doraemon in HTML & CSS</title>
+<style>
+  :root{
+    /* change this to resize the whole character */
+    --size: 320px;
+    --blue: #2b88d9;
+    --white: #ffffff;
+    --black: #111;
+    --red: #e23b3b;
+    --yellow: #ffd24d;
+  }
+
+  /* container centers and scales */
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    margin:0;
+    background: linear-gradient(180deg,#eaf6ff 0%, #f7fbff 100%);
+    font-family: system-ui, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  .stage{
+    width: var(--size);
+    height: calc(var(--size) * 1.05);
+    display:grid;
+    place-items:center;
+  }
+
+  /* main Doraemon wrapper (used for layout) */
+  .dora {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* HEAD (blue circle) */
+  .head{
+    position: absolute;
+    inset: 0 0 25% 0;                 /* leave space for body/pocket below */
+    border-radius: 50%;
+    background: var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:
+      0 12px 24px rgba(19,45,67,0.12),
+      inset 0 -10px 30px rgba(0,0,0,0.06);
+    overflow: visible;
+  }
+
+  /* FACE (white inner circle slightly smaller) */
+  .face{
+    width: 78%;
+    height: 78%;
+    background: var(--white);
+    border-radius: 50%;
+    position: relative;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding-top: 16%;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+  }
+
+  /* EYES */
+  /* .eyes{
+    display:flex;
+    gap: 6%;
+    width: 60%;
+    justify-content:space-between;
+  } */
+.eye{
+  width: 22%;
+  height: 24%;
+  background: var(--white);
+  border-radius: 50%;
+  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: inset 0 -3px 6px rgba(0,0,0,0.08);
+  border: 2px solid var(--black);  /* 👈 new line */
+}
+
+  .eye{
+    width: 22%;
+    height: 24%;
+    background: var(--white);
+    border-radius: 50%;
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: inset 0 -3px 6px rgba(0,0,0,0.08);
+  }
+  .eye::after{
+    content:"";
+    width: 30%;
+    height: 30%;
+    background: var(--black);
+    border-radius:50%;
+    transform: translateX(6%);
+  }
+
+  /* NOSE */
+  .nose{
+    position:absolute;
+    top: 44%;
+    width: 13%;
+    height: 13%;
+    background: var(--red);
+    border-radius:50%;
+    border: 2px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  }
+  .nose::after{
+    content:"";
+    position:absolute;
+    left:28%;
+    top:18%;
+    width:36%;
+    height:36%;
+    border-radius:50%;
+    background: rgba(255,255,255,0.7);
+  }
+
+  /* MOUTH - the vertical line and curved smile */
+  .mouth-vert{
+    position:absolute;
+    top: calc(44% + 13%);
+    left:50%;
+    transform:translateX(-50%);
+    width:2%;
+    height:14%;
+    background: transparent;
+    border-left: 2px solid var(--black);
+    border-right: 0;
+  }
+  .smile{
+    position:absolute;
+    width: 58%;
+    height: 40%;
+    top: 56%;
+    left:50%;
+    transform:translateX(-50%);
+    border-bottom: 4px solid var(--black);
+    border-radius: 0 0 48% 48%;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.02) 100%);
+  }
+
+  /* WHISKERS - left and right groups */
+  .whiskers {
+    position:absolute;
+    width:85%;
+    height: 1px;
+    top: 54%;
+    left:50%;
+    transform:translateX(-50%);
+    pointer-events:none;
+  }
+  .whiskers span{
+    position:absolute;
+    height:2px;
+    width:34%;
+    background: var(--black);
+    top:0;
+    transform-origin:left center;
+    opacity:0.9;
+  }
+  /* left set */
+  .wh1{ left:0; transform: translateX(-20%) rotate(-10deg); }
+  .wh2{ left:0; transform: translateX(-20%) rotate(0deg); top:10px; }
+  .wh3{ left:0; transform: translateX(-20%) rotate(10deg); top:20px; }
+
+  /* right set */
+  .wh4{ right:0; transform: translateX(20%) rotate(10deg); }
+  .wh5{ right:0; transform: translateX(20%) rotate(0deg); top:10px; }
+  .wh6{ right:0; transform: translateX(20%) rotate(-10deg); top:20px; }
+
+  /* COLLAR */
+  .collar{
+    position:absolute;
+    bottom: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    height: 12%;
+    background: var(--red);
+    border-radius: 30px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* BELL */
+  .bell{
+    position:absolute;
+    bottom: calc(28% - 7%);
+    left:50%;
+    transform:translateX(-50%);
+    width: 16%;
+    height: 16%;
+    background: var(--yellow);
+    border-radius:50%;
+    border:3px solid rgba(0,0,0,0.08);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .bell::after{
+    content:"";
+    position:absolute;
+    bottom:38%;
+    left:50%;
+    transform:translateX(-50%);
+    width:58%;
+    height:10%;
+    background: transparent;
+    border-bottom: 2px solid rgba(0,0,0,0.18);
+    border-radius:2px;
+  }
+  .bell::before{
+    content:"";
+    position:absolute;
+    top:46%;
+    left:50%;
+    transform:translateX(-50%);
+    width:10%;
+    height:10%;
+    background: var(--black);
+    border-radius:50%;
+  }
+
+  /* BODY / POCKET area under head */
+  .body{
+    position:absolute;
+    top: 58%;
+    left:50%;
+    transform:translateX(-50%);
+    width: 84%;
+    height: 56%;
+    background: var(--blue);
+    border-radius: 0 0 28% 28%;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    box-shadow: inset 0 10px 20px rgba(0,0,0,0.04);
+  }
+
+  /* POCKET (white semicircle) */
+  .pocket{
+    width: 60%;
+    height: 58%;
+    background: var(--white);
+    border-radius: 0 0 50% 50%;
+    position: relative;
+    top: 12%;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .pocket::after{
+    content:"";
+    position:absolute;
+    bottom:18%;
+    width: 68%;
+    height: 14%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.01));
+  }
+
+  /* small shine for 3D effect on head */
+  .head-shine{
+    position:absolute;
+    top:12%;
+    left:18%;
+    width: 20%;
+    height: 12%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.38), rgba(255,255,255,0));
+    border-radius: 40%;
+    transform: rotate(-18deg);
+    filter: blur(0.5px);
+    opacity:0.9;
+  }
+
+  /* Responsive: scale down nicely on small screens */
+  @media (max-width:420px){
+    :root { --size: 260px; }
+    .stage{ transform: translateY(-4%); }
+  }
+</style>
+</head>
+<body>
+  <div class="stage" aria-hidden="false" title="Pure CSS Doraemon">
+    <div class="dora" role="img" aria-label="Doraemon cartoon">
+      <div class="head">
+        <div class="head-shine"></div>
+
+        <div class="face">
+          <div class="eyes" aria-hidden="true">
+            <div class="eye"></div>
+            <div class="eye"></div>
+          </div>
+
+          <div class="nose" aria-hidden="true"></div>
+
+          <div class="whiskers" aria-hidden="true">
+            <span class="wh1"></span>
+            <span class="wh2"></span>
+            <span class="wh3"></span>
+            <span class="wh4"></span>
+            <span class="wh5"></span>
+            <span class="wh6"></span>
+          </div>
+
+          <div class="mouth-vert" aria-hidden="true"></div>
+          <div class="smile" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="collar" aria-hidden="true"></div>
+      <div class="bell" aria-hidden="true"></div>
+
+      <div class="body" aria-hidden="true">
+        <div class="pocket" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
